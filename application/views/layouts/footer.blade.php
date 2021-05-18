@@ -7,7 +7,6 @@
     </p>
 </footer>
 
-<script src="<?= assets_url ?>app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
 <script src="<?= assets_url . "app-assets/js/core/app-menu.js" ?>"></script>
 <script src="<?= assets_url . "app-assets/js/core/app.js" ?>"></script>
 <script src="<?= assets_url . "app-assets/js/scripts/customizer.js" ?>"></script>

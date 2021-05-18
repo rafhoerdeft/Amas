@@ -31,12 +31,7 @@ class User2 extends Adm_Controller
 
         $this->controller = $this->router->fetch_class();
 
-        $dataJenisKibAset = $this->MasterData->getData('tbl_jenis_kib')->result();
-
-        $menu = array(
-            'dataJenisKibAset' => $dataJenisKibAset,
-        );
-        $this->load->view('menu', $menu, TRUE);
+        $this->dataJenisKibAset = $this->MasterData->getData('tbl_jenis_kib')->result();
 
     } 
 
@@ -44,7 +39,9 @@ class User2 extends Adm_Controller
     {
         $active = '0';
 
+        $dataJenisKibAset = $this->dataJenisKibAset;
         $data = compact(
+            'dataJenisKibAset',
             'active'
         );
 
@@ -93,7 +90,9 @@ class User2 extends Adm_Controller
 
         // var_dump($non_aset_bj);exit();
 
+        $dataJenisKibAset = $this->dataJenisKibAset;
         $data = compact(
+            'dataJenisKibAset',
             'active',
             'this_month',
             'last_6_month',
@@ -125,59 +124,8 @@ class User2 extends Adm_Controller
         $dataJenisKib = $kib->row();
 
         // ===============================================================================
-
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        $this->foot[] = base_url('assets/js/delete_all_data.js');
-        $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/'.$dataJenisKib->nama_tbl_kib.'.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataAset/' . $dataJenisKib->nama_tbl_kib . '/' . encode($id_jenis_kib)) . "')";
-        $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });}";
-        $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '2';
-        $menu['active_sub']     = '2.'.$id_jenis_kib;
+        $active  = '2';
+        $active_sub  = '2.'.$id_jenis_kib;
 
         // ================================================================
         
@@ -190,23 +138,19 @@ class User2 extends Adm_Controller
 
         // $statusAset = $this->MasterData->getWhereData('*', 'tbl_aset_status', "id_aset_status > 0")->result();
         // $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
-
-        $content = array(
-            'id_jenis_kib'   => $id_jenis_kib,
-            'dataJenisKib'   => $dataJenisKib,
-            // 'statusAset'     => $statusAset,
-            // 'dataSkpd'       => $dataSkpd,
+        
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'active_sub',
+            'id_jenis_kib',
+            'dataJenisKib',
+            // 'statusAset'  ,
+            // 'dataSkpd'    ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/data_aset',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/data_aset", $data);
     }
 
     public function addDataAset($id = '', $status_asal = '') {
@@ -225,71 +169,8 @@ class User2 extends Adm_Controller
 
         // ===============================================================================
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/css/plugins/forms/wizard.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        // $this->foot[] = assets_url . "app-assets/js/scripts/forms/wizard-steps.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/jquery.steps.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        // $this->foot[] = base_url('assets/js/'.$dataJenisKib->nama_tbl_kib.'.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        // $script[] = "showDataTable('" . base_url($this->controller.'/getDataAset/' . $dataJenisKib->nama_tbl_kib . '/' . encode($id_jenis_kib)) . "')";
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        $script[] = '$(".tab-steps").steps({
-                        headerTag: "h6",
-                        bodyTag: "fieldset",
-                        transitionEffect: "fade",
-                        titleTemplate: "<span class=step>#index#</span> #title#",
-                        labels: {
-                            finish: "Simpan",
-                            next: "Lanjut",
-                            previous: "Sebelumnya",
-                            loading: "Loading..." 
-                        },
-                        onFinished: function (event, currentIndex) {
-                            formSubmit(this);
-                        }
-                    });';
-        $script[] = "$('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        $script[] = "$('.skin-radio input').on('ifChecked ifUnchecked', function(event){
-                        asetUtama(this, event.type);
-                    }).iCheck({
-                        radioClass: 'iradio_square-red'
-                    });";
-        $script[] = '$("#dataTable").DataTable();';
-       
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '2';
-        $menu['active_sub']     = '2.'.$id_jenis_kib;
+        $active = '2';
+        $active_sub = '2.'.$id_jenis_kib;
 
         // ================================================================
         $select = array(
@@ -298,22 +179,18 @@ class User2 extends Adm_Controller
         );
         $dataBarang = $this->MasterData->selectJoinOrder($select, 'tbl_pengadaan pd', 'tbl_barang br', "pd.id_barang = br.id_barang", "LEFT", "br.id_barang NOT IN (SELECT ar.id_barang FROM tbl_aset_rincian ar)", "pd.id_pengadaan", "DESC")->result();
 
-        $content = array(
-            'status_asal'    => $status_asal,
-            'id_jenis_kib'   => $id_jenis_kib,
-            'dataJenisKib'   => $dataJenisKib,
-            'dataBarang'     => $dataBarang,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'active_sub',
+            'status_asal' ,
+            'id_jenis_kib',
+            'dataJenisKib',
+            'dataBarang'  ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/form_kib',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/form_kib", $data);
     }
 
     public function editDataAset($kib = '', $id = '') {
@@ -333,71 +210,8 @@ class User2 extends Adm_Controller
 
         // ===============================================================================
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/css/plugins/forms/wizard.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        // $this->foot[] = assets_url . "app-assets/js/scripts/forms/wizard-steps.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/jquery.steps.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        // $this->foot[] = base_url('assets/js/'.$dataJenisKib->nama_tbl_kib.'.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        // $script[] = "showDataTable('" . base_url($this->controller.'/getDataAset/' . $dataJenisKib->nama_tbl_kib . '/' . encode($id_jenis_kib)) . "')";
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        $script[] = '$(".tab-steps").steps({
-                        headerTag: "h6",
-                        bodyTag: "fieldset",
-                        transitionEffect: "fade",
-                        titleTemplate: "<span class=step>#index#</span> #title#",
-                        labels: {
-                            finish: "Simpan",
-                            next: "Lanjut",
-                            previous: "Sebelumnya",
-                            loading: "Loading..." 
-                        },
-                        onFinished: function (event, currentIndex) {
-                            formSubmit(this);
-                        }
-                    });';
-        $script[] = "$('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        $script[] = "$('.skin-radio input').on('ifChecked ifUnchecked', function(event){
-                        asetUtama(this, event.type);
-                    }).iCheck({
-                        radioClass: 'iradio_square-red'
-                    });";
-       
-        $script[] = '$("#dataTable").DataTable();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '2';
-        $menu['active_sub']     = '2.'.$id_jenis_kib;
+        $active = '2';
+        $active_sub = '2.'.$id_jenis_kib;
 
         // ================================================================
         
@@ -424,24 +238,20 @@ class User2 extends Adm_Controller
         );
         $dataBarang = $this->MasterData->selectJoinOrder($select, 'tbl_pengadaan pd', 'tbl_barang br', "pd.id_barang = br.id_barang", "LEFT", "br.id_barang NOT IN (SELECT ar.id_barang FROM tbl_aset_rincian ar WHERE ar.id_aset <> $id_aset)", "pd.id_pengadaan", "DESC")->result();
 
-        $content = array(
-            'id_jenis_kib'   => $id_jenis_kib,
-            'dataJenisKib'   => $dataJenisKib,
-            'dataAset'       => $dataAset,
-            'dataBarang'     => $dataBarang,
-            'dataRincian'    => $dataRincian,
-            'dataKib'        => $dataKib,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'active_sub',
+            'id_jenis_kib',
+            'dataJenisKib',
+            'dataAset'    ,
+            'dataBarang'  ,
+            'dataRincian' ,
+            'dataKib'     ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/form_kib_edit',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/form_kib_edit", $data);
     }
 
     public function simpanDataAset() {
@@ -965,57 +775,9 @@ class User2 extends Adm_Controller
             $selectTglAkhir = date('d/m/Y');
         }
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
         // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/delete_all_data.js');
-        $this->foot[] = base_url('assets/js/tbl_histori_aset.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Penempatan Aset', '', '".date('dmY')."', [ 0, 2, 3, 4, 5, 6, 7, 8]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataHistori/' . $selectStatus . '/' . $selectJenis . '/' . $selectSkpd . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAwal))) . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAkhir)))) . "');";
-
-        $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });}";
-        $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        $script[] = "$('.date-range').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2({ dropdownCssClass: "sizeFontSm" });';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '3';
+    
+        $active  = '3';
 
         // ================================================================
 
@@ -1023,26 +785,21 @@ class User2 extends Adm_Controller
         $dataJenisAset = $this->MasterData->getWhereData('*', 'tbl_jenis_kib', "id_jenis_kib > 0")->result();
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'selectSkpd'     => $selectSkpd,
-            'selectStatus'   => $selectStatus,
-            'selectJenis'    => $selectJenis,
-            'selectTglAwal'  => $selectTglAwal,
-            'selectTglAkhir' => $selectTglAkhir,
-            'dataStatusAset' => $dataStatusAset,
-            'dataJenisAset'  => $dataJenisAset,
-            'dataSkpd'       => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'selectSkpd'    ,
+            'selectStatus'  ,
+            'selectJenis'   ,
+            'selectTglAwal' ,
+            'selectTglAkhir',
+            'dataStatusAset',
+            'dataJenisAset' ,
+            'dataSkpd'      ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/histori_aset',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/histori_aset", $data);
     }
 
     public function getDataHistori($status='', $jenis='', $skpd='', $tgl_awal='', $tgl_akhir='')
@@ -1118,55 +875,9 @@ class User2 extends Adm_Controller
             $selectJenis = decode($id_kib);
         }
         
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
         // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        $this->foot[] = base_url('assets/js/icheck_config.js');
-        $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/cetak_excel.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        // ================================================================
-        $script[] = "showDataTable('Data Mutasi Aset', '', '".date('dmY')."', [ 0, 2, 3, 4, 5, 6, 7, 8]);";
-        // $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-        //                 pilihAset(this, event.type);
-        //             }).iCheck({
-        //                 checkboxClass: 'icheckbox_flat-green'
-        //             });}";
-        // $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-        //                 pilihAset(this, event.type);
-        //             }).iCheck({
-        //                 checkboxClass: 'icheckbox_flat-green'
-        //             });";
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '4';
+    
+        $active  = '4';
 
         // ================================================================
         $select = array(
@@ -1186,23 +897,18 @@ class User2 extends Adm_Controller
         $statusAset = $this->MasterData->getWhereData('*', 'tbl_aset_status', "nama_status != 'Mutasi'")->result();
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'dataMutasi'      => $dataMutasi,
-            'dataJenisAset'   => $dataJenisAset,
-            'selectJenis'     => $selectJenis,
-            'statusAset'      => $statusAset,   
-            'dataSkpd'        => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataMutasi'   ,
+            'dataJenisAset',
+            'selectJenis'  ,
+            'statusAset'   ,   
+            'dataSkpd'     ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/data_mutasi',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/data_mutasi", $data);
     }
 
     // =====================================================================
@@ -1223,55 +929,9 @@ class User2 extends Adm_Controller
             $selectJenis = decode($id_kib);
         }
         
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
         // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        $this->foot[] = base_url('assets/js/icheck_config.js');
-        $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/cetak_excel.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        // ================================================================
-        $script[] = "showDataTable('Data Usulan Hapus Aset', '', '".date('dmY')."', [ 0, 2, 3, 4, 5, 6, 7]);";
-        // $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-        //                 pilihAset(this, event.type);
-        //             }).iCheck({
-        //                 checkboxClass: 'icheckbox_flat-green'
-        //             });}";
-        // $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-        //                 pilihAset(this, event.type);
-        //             }).iCheck({
-        //                 checkboxClass: 'icheckbox_flat-green'
-        //             });";
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '5';
+    
+        $active  = '5';
 
         // ================================================================
         $select = array(
@@ -1290,23 +950,18 @@ class User2 extends Adm_Controller
         $statusAset = $this->MasterData->getWhereData('*', 'tbl_aset_status', "nama_status != 'Usulan Hapus'")->result();
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'dataHapus'       => $dataHapus,
-            'dataJenisAset'   => $dataJenisAset,
-            'selectJenis'     => $selectJenis,
-            'statusAset'      => $statusAset,
-            'dataSkpd'        => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataHapus'    ,
+            'dataJenisAset',
+            'selectJenis'  ,
+            'statusAset'   ,
+            'dataSkpd'     ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/data_usulan_hapus',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/data_usulan_hapus", $data);
     }
 
     // =====================================================================
@@ -1341,72 +996,8 @@ class User2 extends Adm_Controller
 
         // ===============================================================================
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/css/plugins/forms/wizard.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        // $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        // $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        // $this->foot[] = assets_url . "app-assets/js/scripts/forms/wizard-steps.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/jquery.steps.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        // $this->foot[] = base_url('assets/js/'.$dataJenisKib->nama_tbl_kib.'.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        // $script[] = "showDataTable('" . base_url($this->controller.'/getDataAset/' . $dataJenisKib->nama_tbl_kib . '/' . encode($id_jenis_kib)) . "')";
-        
-        $script[] = '$(".tab-steps").steps({
-                        headerTag: "h6",
-                        bodyTag: "fieldset",
-                        transitionEffect: "fade",
-                        titleTemplate: "<span class=step>#index#</span> #title#",
-                        labels: {
-                            finish: "Simpan",
-                            next: "Lanjut",
-                            previous: "Sebelumnya",
-                            loading: "Loading..." 
-                        },
-                        onFinished: function (event, currentIndex) {
-                            formSubmit(this);
-                        }
-                    });';
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // $script[] = "$('.skin-check input').on('ifChecked ifUnchecked', function(event){
-        //                 pilihAset(this, event.type);
-        //             }).iCheck({
-        //                 checkboxClass: 'icheckbox_flat-green'
-        //             });";
-        // $script[] = "$('.skin-radio input').on('ifChecked ifUnchecked', function(event){
-        //                 asetUtama(this, event.type);
-        //             }).iCheck({
-        //                 radioClass: 'iradio_square-red'
-        //             });";
-        $script[] = '$("#dataTable").DataTable();';
-       
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '2';
-        $menu['active_sub']     = '2.'.$id_jenis_kib;
+        $active = '2';
+        $active_sub = '2.'.$id_jenis_kib;
 
         // ================================================================
 
@@ -1427,23 +1018,19 @@ class User2 extends Adm_Controller
         $statusAset = $this->MasterData->getWhereData('*', 'tbl_aset_status', "id_aset_status > 0")->result();
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'id_jenis_kib'   => $id_jenis_kib,
-            'dataJenisKib'   => $dataJenisKib,
-            'dataAset'       => $dataAset,
-            'statusAset'     => $statusAset,
-            'dataSkpd'       => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'active_sub',
+            'id_jenis_kib',
+            'dataJenisKib',
+            'dataAset'    ,
+            'statusAset'  ,
+            'dataSkpd'    ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/form_eksekusi_aset',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/form_eksekusi_aset", $data);
     }
 
     public function eksekusiAset() {
@@ -1527,7 +1114,9 @@ class User2 extends Adm_Controller
         
         $dataRekanan = $this->MasterData->getWhereDataOrder('*', 'tbl_rekanan', "id_rekanan > 0", "id_rekanan", "DESC")->result();
 
+        $dataJenisKibAset = $this->dataJenisKibAset;
         $data = compact(
+            'dataJenisKibAset',
             'active',
             'dataRekanan',
         );
@@ -1622,7 +1211,9 @@ class User2 extends Adm_Controller
 
         $dataRekanan = $this->MasterData->getWhereData('*', 'tbl_rekanan', "id_rekanan > 0")->result();
 
+        $dataJenisKibAset = $this->dataJenisKibAset;
         $data = compact(
+            'dataJenisKibAset',
             'active',
             'dataKontrak',
             'dataPpkom',
@@ -1715,41 +1306,7 @@ class User2 extends Adm_Controller
 
     public function dataPengadaan() {
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        $this->foot[] = base_url('assets/js/data_table.js');
-        $this->foot[] = base_url('assets/js/cetak_excel.js');
-        $this->foot[] = base_url('assets/js/delete_data.js');
-        // ================================================================
-        $script[] = "showDataTable('Data Pengadaan', '', '".date('dmY')."', [ 0, 3, 4, 5, 6, 7, 8, 9, 10, 11]);";
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '8';
+        $active  = '8';
 
         // ================================================================
         $select = array(
@@ -1777,20 +1334,15 @@ class User2 extends Adm_Controller
         // );
         // $dataKontrak = $this->MasterData->getWhereDataOrder($select, 'tbl_kontrak kt', "kt.id_kontrak NOT IN (SELECT pd.id_kontrak FROM tbl_pengadaan pd)", "kt.id_kontrak", "DESC")->result();
 
-        $content = array(
-            'dataPengadaan'   => $dataPengadaan,
-            // 'dataKontrak'   => $dataKontrak,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataPengadaan',
+            // 'dataKontrak',
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/data_pengadaan',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/data_pengadaan", $data);
     }
 
     public function simpanDataPengadaan() {
@@ -1867,46 +1419,7 @@ class User2 extends Adm_Controller
 
         $id_kontrak = decode($id);
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        // $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        // $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        $this->foot[] = base_url('assets/js/icheck_config.js');
-        $this->foot[] = base_url('assets/js/data_table.js');
-        $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/delete_all_data.js');
-        // ================================================================
-        $script[] = "showDataTable('Rincian Pengadaan', '', '".date('dmY')."', [ 0, 3, 4, 5, 6, 7, 8, 9]);";
-       
-        // $script[] = "$('.date-picker').datepicker({
-        //                 autoclose: true,
-        //                 todayHighlight: true,
-        //                 format: 'dd/mm/yyyy',
-        //                 toggleActive: true,
-        //                 orientation: 'bottom left'
-        //             });";
-        $script[] = '$(".select2").select2();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '8';
+        $active = '8';
 
         // ================================================================
 
@@ -1937,21 +1450,16 @@ class User2 extends Adm_Controller
 
         // $kodeBarang = kodeOtomatis('kode_barang', 'tbl_barang', "id_barang > 0", 'B', 5);
 
-        $content = array(
-            'dataRincian'   => $dataRincian,
-            'dataKontrak'   => $dataKontrak,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataRincian',
+            'dataKontrak',
             // 'kodeBarang'    => $kodeBarang,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/data_pengadaan_rincian',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/data_pengadaan_rincian", $data);
     }
 
     public function simpanRincianPengadaan() {
@@ -2193,77 +1701,20 @@ class User2 extends Adm_Controller
         $this->load->helper('searchbar');
 
         // ===============================================================================
-
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_all_data.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/tbl_barang_jasa.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataBarangJasa') . "')";
-        $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });}";
-        $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '9';
-
+        $active = '9';
         // ================================================================
 
         // $statusAset = $this->MasterData->getWhereData('*', 'tbl_aset_status', "id_aset_status > 0")->result();
         // $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
             // 'dataSkpd'        => $dataSkpd,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/data_barang_jasa',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/data_barang_jasa", $data);
     }
 
     public function getDataBarangJasa() {
@@ -2355,71 +1806,7 @@ class User2 extends Adm_Controller
 
         // ===============================================================================
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/css/plugins/forms/wizard.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        // $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        // $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        // $this->foot[] = assets_url . "app-assets/js/scripts/forms/wizard-steps.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/jquery.steps.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        // $this->foot[] = base_url('assets/js/'.$dataJenisKib->nama_tbl_kib.'.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        // $script[] = "showDataTable('" . base_url($this->controller.'/getDataAset/' . $dataJenisKib->nama_tbl_kib . '/' . encode($id_jenis_kib)) . "')";
-        
-        $script[] = '$(".tab-steps").steps({
-                        headerTag: "h6",
-                        bodyTag: "fieldset",
-                        transitionEffect: "fade",
-                        titleTemplate: "<span class=step>#index#</span> #title#",
-                        labels: {
-                            finish: "Simpan",
-                            next: "Lanjut",
-                            previous: "Sebelumnya",
-                            loading: "Loading..." 
-                        },
-                        onFinished: function (event, currentIndex) {
-                            formSubmit(this);
-                        }
-                    });';
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // $script[] = "$('.skin-check input').on('ifChecked ifUnchecked', function(event){
-        //                 pilihAset(this, event.type);
-        //             }).iCheck({
-        //                 checkboxClass: 'icheckbox_flat-green'
-        //             });";
-        // $script[] = "$('.skin-radio input').on('ifChecked ifUnchecked', function(event){
-        //                 asetUtama(this, event.type);
-        //             }).iCheck({
-        //                 radioClass: 'iradio_square-red'
-        //             });";
-        $script[] = '$("#dataTable").DataTable();';
-       
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '9';
+        $active  = '9';
 
         // ================================================================
 
@@ -2442,20 +1829,15 @@ class User2 extends Adm_Controller
         
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'dataBarang'     => $dataBarang,
-            'dataSkpd'       => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataBarang' ,
+            'dataSkpd'   ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/form_eksekusi_barang_jasa',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/form_eksekusi_barang_jasa", $data);
     }
 
     public function eksekusiBarangJasa() {
@@ -2537,76 +1919,22 @@ class User2 extends Adm_Controller
             $selectTglAkhir = date('d/m/Y');
         }
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
         // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/delete_all_data.js');
-        $this->foot[] = base_url('assets/js/tbl_histori_barang_jasa.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Penempatan Aset', '', '".date('dmY')."', [ 0, 2, 3, 4, 5, 6, 7, 8]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataHistoriBarangJasa/' . $selectSkpd . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAwal))) . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAkhir)))) . "');";
-        $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });}";
-        $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        $script[] = "$('.date-range').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2({ dropdownCssClass: "sizeFontSm" });';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '12';
-
+        $active = '12';
         // ================================================================
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'selectSkpd'     => $selectSkpd,
-            'selectTglAwal'  => $selectTglAwal,
-            'selectTglAkhir' => $selectTglAkhir,
-            'dataSkpd'       => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'selectSkpd'     ,
+            'selectTglAwal'  ,
+            'selectTglAkhir' ,
+            'dataSkpd'       ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/histori_barang_jasa',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/histori_barang_jasa", $data);
     }
 
     public function getDataHistoriBarangJasa($skpd='', $tgl_awal='', $tgl_akhir='')
@@ -2687,77 +2015,20 @@ class User2 extends Adm_Controller
         $this->load->helper('searchbar');
 
         // ===============================================================================
-
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_all_data.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/tbl_barang_so.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataBarangSo') . "')";
-        $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });}";
-        $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-                        pilihAset(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '10';
-
+        $active = '10';
         // ================================================================
 
         // $statusAset = $this->MasterData->getWhereData('*', 'tbl_aset_status', "id_aset_status > 0")->result();
         // $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
             // 'dataSkpd'        => $dataSkpd,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/data_barang_so',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/data_barang_so", $data);
     }
 
     public function getDataBarangSo() {
@@ -2850,71 +2121,7 @@ class User2 extends Adm_Controller
 
         // ===============================================================================
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/css/plugins/forms/wizard.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        // $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        // $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        // $this->foot[] = assets_url . "app-assets/js/scripts/forms/wizard-steps.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/jquery.steps.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        // $this->foot[] = base_url('assets/js/'.$dataJenisKib->nama_tbl_kib.'.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Aset Diskominfo', '', '".date('dmY')."', [ 0, 2, 3, 4]);";
-        // $script[] = "showDataTable('" . base_url($this->controller.'/getDataAset/' . $dataJenisKib->nama_tbl_kib . '/' . encode($id_jenis_kib)) . "')";
-        
-        $script[] = '$(".tab-steps").steps({
-                        headerTag: "h6",
-                        bodyTag: "fieldset",
-                        transitionEffect: "fade",
-                        titleTemplate: "<span class=step>#index#</span> #title#",
-                        labels: {
-                            finish: "Simpan",
-                            next: "Lanjut",
-                            previous: "Sebelumnya",
-                            loading: "Loading..." 
-                        },
-                        onFinished: function (event, currentIndex) {
-                            formSubmit(this);
-                        }
-                    });';
-        $script[] = "$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2();';
-        // $script[] = "$('.skin-check input').on('ifChecked ifUnchecked', function(event){
-        //                 pilihAset(this, event.type);
-        //             }).iCheck({
-        //                 checkboxClass: 'icheckbox_flat-green'
-        //             });";
-        // $script[] = "$('.skin-radio input').on('ifChecked ifUnchecked', function(event){
-        //                 asetUtama(this, event.type);
-        //             }).iCheck({
-        //                 radioClass: 'iradio_square-red'
-        //             });";
-        $script[] = '$("#dataTable").DataTable();';
-       
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '4';
+        $active = '10';
 
         // ================================================================
 
@@ -2941,20 +2148,15 @@ class User2 extends Adm_Controller
         
         // $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'dataBarang'     => $dataBarang,
-            // 'dataSkpd'       => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataBarang' ,
+            // 'dataSkpd'   ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/form_eksekusi_barang_so',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/form_eksekusi_barang_so", $data);
     }
 
     public function eksekusiBarangSo() {
@@ -3037,77 +2239,25 @@ class User2 extends Adm_Controller
             $selectTglAkhir = date('d/m/Y');
         }
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
+        
         // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/delete_all_data.js');
-        $this->foot[] = base_url('assets/js/tbl_histori_barang_so.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Penempatan Aset', '', '".date('dmY')."', [ 0, 2, 3, 4, 5, 6, 7, 8]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataHistoriBarangSo/' . $selectSkpd . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAwal))) . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAkhir)))) . "');";
 
-        $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });}";
-        $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        $script[] = "$('.date-range').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2({ dropdownCssClass: "sizeFontSm" });';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '13';
+        $active  = '13';
 
         // ================================================================
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'selectSkpd'     => $selectSkpd,
-            'selectTglAwal'  => $selectTglAwal,
-            'selectTglAkhir' => $selectTglAkhir,
-            'dataSkpd'       => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'selectSkpd'    ,
+            'selectTglAwal' ,
+            'selectTglAkhir',
+            'dataSkpd'      ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/histori_barang_so',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/histori_barang_so", $data);
     }
 
     public function getDataHistoriBarangSo($skpd='', $tgl_awal='', $tgl_akhir='')
@@ -3173,7 +2323,9 @@ class User2 extends Adm_Controller
 
         $dataRole = $this->MasterData->getWhereData('*', 'tbl_role', "nama_role != 'Admin'")->result();
 
+        $dataJenisKibAset = $this->dataJenisKibAset;
         $data = compact(
+            'dataJenisKibAset',
             'active',
             'dataUser',
             'dataRole',
@@ -3296,7 +2448,9 @@ class User2 extends Adm_Controller
         // ========================================
         $dataUser = $this->MasterData->getWhereData('*', 'tbl_user', "id_user = ".$this->id_user)->row();
 
+        $dataJenisKibAset = $this->dataJenisKibAset;
         $data = compact(
+            'dataJenisKibAset',
             'active',
             'dataUser',
         );
@@ -3335,7 +2489,9 @@ class User2 extends Adm_Controller
 
         $dataUser = $this->MasterData->getWhereData('*', 'tbl_user', "id_user = ".$this->id_user)->row();
 
+        $dataJenisKibAset = $this->dataJenisKibAset;
         $data = compact(
+            'dataJenisKibAset',
             'active',
             'dataUser',
         );

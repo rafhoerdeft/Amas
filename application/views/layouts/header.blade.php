@@ -28,6 +28,8 @@
     <link href="<?= assets_url . "app-assets/css/components.min.css" ?>" type="text/css" rel="stylesheet">
     <link href="<?= base_url('assets/css/loading.css') ?>" type="text/css" rel="stylesheet">
 
+    <script src="<?= assets_url ?>app-assets/vendors/js/vendors.min.js" type="text/javascript"></script>
+
     @yield('header')
         
     <style>
