@@ -23,12 +23,12 @@
         <div class="content-header row">
           
           <div class="content-header-left col-md-10 col-12 mb-2 breadcrumb-new">
-            <h3 class="content-header-title mb-0 d-inline-block">Histori Barang Jasa</h3>
+            <h3 class="content-header-title mb-0 d-inline-block">Histori Barang</h3>
             <div class="row breadcrumbs-top d-inline-block">
               <div class="breadcrumb-wrapper col-12">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="<?= base_url($this->controller) ?>">Home</a></li>
-                  <li class="breadcrumb-item active">Histori Barang Jasa</li>
+                  <li class="breadcrumb-item active">Histori Barang</li>
                 </ol>
               </div>
             </div>
@@ -78,7 +78,7 @@
 
                       <?= show_alert() ?>
 
-                      <form action="<?= base_url($this->controller.'/historiBarangJasa') ?>" class="row" method="POST">
+                      <form action="<?= base_url($this->controller.'/historiBarangSo') ?>" class="row" method="POST">
                         <?= token_csrf() ?>
 
                         <div class="col-lg-3 sizeFontSm" style="margin-bottom: 5px;">
@@ -91,7 +91,7 @@
                           </div>
                         </div>
 
-                        <div class="col-lg-3 sizeFontSm" style="margin-bottom: 5px;">
+                        <div class="col-lg-3 sizeFontSm d-none" style="margin-bottom: 5px;">
                           <div class="controls">
                               <select id="id_skpd" name="id_skpd" class="form-control select2">
                                 <option value="0" selected>Semua SKPD</option>
@@ -122,9 +122,9 @@
                         }
                       </style>
 
-                      <?= formSearch('data_histori_barang_jasa') ?>
+                      <?= formSearch('data_histori_barang_so') ?>
 
-                      <table id="data_histori_barang_jasa" class="table table-hover table-bordered table-striped" style="font-size: 8pt">
+                      <table id="data_histori_barang_so" class="table table-hover table-bordered table-striped" style="font-size: 8pt">
                         <thead>
                           <tr style="text-align: center;">
                             <th>No</th>
@@ -134,13 +134,14 @@
                                 </div>
                             </th>
                             <th>Tgl Eksekusi</th>
+                            <th>No Nota</th>
                             <th>Kode</th>
                             <th>Nama Barang</th>
                             <th>Merk/Type</th>
                             <th>Serial Number</th>
                             <th>Satuan</th>
                             <th>Jml</th>
-                            <th>SKPD</th>
+                            <!-- <th>SKPD</th> -->
                             <th>Lokasi</th>
                             <th>Pemegang</th>
                             <th>Penanggung Jawab</th>
@@ -177,7 +178,7 @@
         // $foot[] = base_url('assets/js/data_table.js');
         // $foot[] = base_url('assets/js/delete_data.js');
         $foot[] = base_url('assets/js/delete_all_data.js');
-        $foot[] = base_url('assets/js/tbl_histori_barang_jasa.js');
+        $foot[] = base_url('assets/js/tbl_histori_barang_so.js');
     @endphp
 
     @foreach ($foot as $val)
@@ -186,7 +187,8 @@
 
     @php
         // $script[] = "showDataTable('Data Penempatan Aset', '', '".date('dmY')."', [ 0, 2, 3, 4, 5, 6, 7, 8]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataHistoriBarangJasa/' . $selectSkpd . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAwal))) . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAkhir)))) . "');";
+        $script[] = "showDataTable('" . base_url($this->controller.'/getDataHistoriBarangSo/' . $selectSkpd . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAwal))) . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAkhir)))) . "');";
+
         $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
                         pilihBarang(this, event.type);
                     }).iCheck({
@@ -262,7 +264,6 @@
     </script>
 
     <script type="text/javascript">
-
       function changeRupe(data){
           var val = formatRupiah($(data).val(), 'Rp. ');
           $(data).val(val);

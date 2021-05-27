@@ -1476,76 +1476,25 @@ class User3 extends Adm_Controller
             $selectTglAkhir = date('d/m/Y');
         }
 
-        $this->head[] = assets_url . "app-assets/css/plugins/animate/animate.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/selects/select2.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/tables/datatable/datatables.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css";
-        $this->head[] = assets_url . "app-assets/vendors/bootstrap-datepicker/style-datepicker.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/extensions/sweetalert.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/icheck.css";
-        $this->head[] = assets_url . "app-assets/vendors/css/forms/icheck/custom.css";
+        
         // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/datatables.min.js";
-        // $this->foot[] = assets_url . "app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js";
-        // $this->foot[] = "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js";
-        // $this->foot[] = "https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/icheck/icheck.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/select/select2.full.min.js";
-        $this->foot[] = assets_url . "app-assets/vendors/js/extensions/sweetalert.min.js";
-        // $this->foot[] = base_url('assets/js/data_table.js');
-        // $this->foot[] = base_url('assets/js/delete_data.js');
-        $this->foot[] = base_url('assets/js/delete_all_data.js');
-        $this->foot[] = base_url('assets/js/tbl_histori_barang_jasa.js');
-        // ================================================================
-        // $script[] = "showDataTable('Data Penempatan Aset', '', '".date('dmY')."', [ 0, 2, 3, 4, 5, 6, 7, 8]);";
-        $script[] = "showDataTable('" . base_url($this->controller.'/getDataHistoriBarangJasa/' . $selectSkpd . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAwal))) . '/' . date('Y-m-d', strtotime(str_replace('/', '-', $selectTglAkhir)))) . "');";
-        $script[] = "function activeIcheck(){ $('.skin-check input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });}";
-        $script[] = "$('.skin-check-all input').on('ifChecked ifUnchecked', function(event){
-                        pilihBarang(this, event.type);
-                    }).iCheck({
-                        checkboxClass: 'icheckbox_flat-green'
-                    });";
-        $script[] = "$('.date-range').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        format: 'dd/mm/yyyy',
-                        toggleActive: true,
-                        orientation: 'bottom left'
-                    });";
-        $script[] = '$(".select2").select2({ dropdownCssClass: "sizeFontSm" });';
-        // ================================================================
-        $header['css']      = $this->head;
-        $footer['js']       = $this->foot;
-        $footer['script']   = $script;
-        $menu['active']     = '7';
+
+        $active = '7';
 
         // ================================================================
         $dataSkpd = $this->MasterData->getWhereData('*', 'tbl_skpd', "id_skpd > 0")->result();
 
-        $content = array(
-            'selectSkpd'     => $selectSkpd,
-            'selectTglAwal'  => $selectTglAwal,
-            'selectTglAkhir' => $selectTglAkhir,
-            'dataSkpd'       => $dataSkpd,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'selectSkpd'    ,
+            'selectTglAwal' ,
+            'selectTglAkhir',
+            'dataSkpd'      ,
         );
 
-        $data = array(
-            'header'    => $header,
-            'menu'      => $menu,
-            'konten'    => 'pages/histori_barang_jasa',
-            'footer'    => $footer,
-            'cont'      => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view("blade/histori_barang_jasa", $data);
     }
 
     public function getDataHistoriBarangJasa($skpd='', $tgl_awal='', $tgl_akhir='')
@@ -1643,27 +1592,19 @@ class User3 extends Adm_Controller
 
     public function dataProfil() {
 
-        $header['css'] = $this->head;
-        $footer['js'] = $this->foot;
-        $menu['active'] = '0';
+        $ctive = '0';
 
         // ========================================
-
         $dataUser = $this->MasterData->getWhereData('*', 'tbl_user', "id_user = ".$this->id_user)->row();
 
-        $content = array(
-            'dataUser'  => $dataUser,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataUser',
         );
 
-        $data = array(
-            'header' => $header,
-            'menu'   => $menu,
-            'konten' => 'data_profil',
-            'footer' => $footer,
-            'cont'   => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view('blade/data_profil', $data);
     }
 
     public function simpanProfil() {
@@ -1690,33 +1631,21 @@ class User3 extends Adm_Controller
     // AKUN LOGIN ==========================================================
 
     public function akunLogin() {
-
-        $this->head[] = assets_url . "app-assets/css/plugins/forms/validation/form-validation.css";
-        // ================================================================
-        $this->foot[] = assets_url . "app-assets/vendors/js/forms/validation/jqBootstrapValidation.js";
-        $this->foot[] = assets_url . "app-assets/js/scripts/forms/validation/form-validation.js";
-
-        $header['css'] = $this->head;
-        $footer['js'] = $this->foot;
-        $menu['active'] = '0';
+        
+        $ctive = '0';
 
         // ========================================
 
         $dataUser = $this->MasterData->getWhereData('*', 'tbl_user', "id_user = ".$this->id_user)->row();
 
-        $content = array(
-            'dataUser'  => $dataUser,
+        $dataJenisKibAset = $this->dataJenisKibAset;
+        $data = compact(
+            'dataJenisKibAset',
+            'active',
+            'dataUser',
         );
 
-        $data = array(
-            'header' => $header,
-            'menu'   => $menu,
-            'konten' => 'akun_login',
-            'footer' => $footer,
-            'cont'   => $content,
-        );
-
-        $this->load->view("view_master_admin", $data);
+        view('blade/akun_login', $data);
     }
 
     public function simpanAkunLogin() {
