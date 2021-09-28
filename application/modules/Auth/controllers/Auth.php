@@ -57,7 +57,7 @@ class Auth extends Auth_Controller
 				$sess_data['role'] 			= $role;
 				$sess_data['theme_color'] 	= $color;
 				$sess_data['nama_role'] 	= $nama_role;
-				$sess_data['logs'] 			= 'Sim_asset_' . $role;
+				$sess_data['logs'] 			= '';
 	
 				$ipaddress = $this->input->ip_address();
 	
