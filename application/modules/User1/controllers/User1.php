@@ -9,7 +9,7 @@ class User1 extends Adm_Controller
     {
         parent::__construct();
 
-		$this->secure->auth('Sim_asset_User1');
+		$this->secure->auth('');
 
         $this->controller = $this->router->fetch_class();
     } 
