@@ -9,7 +9,7 @@ class Admin extends Adm_Controller
     {
         parent::__construct();
 
-		$this->secure->auth('Sim_asset_Admin');
+		$this->secure->auth('');
 
         $this->head = array(
             assets_url . "app-assets/css/vendors.css",
