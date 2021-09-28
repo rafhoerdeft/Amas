@@ -81,8 +81,8 @@ class Api_Controller extends CI_Controller
 
 		$this->load->helper('auths');
 
-		$keys = "b67637121b047df82bb7648804d5d2ae";
-		$user = "magelangkab";
+		$keys = "";
+		$user = "";
 
 		$cekKey = cek_key($keys, $user);
 
